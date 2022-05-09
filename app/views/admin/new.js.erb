@@ -1,0 +1,6 @@
+$("#modal-window").find(".modal-content").html("<%= j (render 'new',resource: @user) %>");
+$("#modal-window").modal();
+
+$( function() {
+   $("form[data-remote='true']").remoteValidation();
+ });

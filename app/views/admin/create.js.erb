@@ -1,0 +1,5 @@
+<% if @user.errors.any? %>
+  $('#error_explanation').html("<%= escape_javascript render(:partial => 'layouts/errors', :locals => { :obj => @user }) %>")
+  $('#error_explanation').show();
+  $('#error_explanation').attr("style", "display: block !important");
+<%end%>

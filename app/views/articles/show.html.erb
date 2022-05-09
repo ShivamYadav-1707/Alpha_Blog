@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= @articles.title%></title>
+  <link rel="stylesheet" href="form_css.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+  <style>
+    table, th, td {
+        border: 1px solid white;
+        border-collapse: collapse;
+        border-style: inset;
+    }
+  </style>
+</head>
+
+<body>
+
+  <br> <br>
+  <br> <br>
+
+  <h1 style="text-align:center">
+      ARTICLE 
+  </h1>
+  <div style="text-align:right;padding-right:10px;"><h3>
+    <%= link_to "Create a new Article",new_article_path, { class: 'btn btn-warning btn-lg secondary'}%></h3>
+  </div>
+  <div style="padding-left:10px;padding-right:10px">
+    <table id="data_table" class="table table-responsive w-100 d-block d-md-table">
+    <thead>
+      <th style="width:10%;"scope="col" class="table-primary">
+        <h3>
+            Created At
+        </h3>
+      </th>
+      <th scope="col" class="table-primary">
+        <h3>
+          Title
+        </h3>
+      </th>
+      <th scope="col" class="table-primary">
+        <h3>
+          Description
+        </h3>
+      </th>
+          
+      <th scope="col" class="table-primary">
+        <h3>
+          Operations
+        </h3>
+      </th>  
+      </thead>
+      <%@t=0%>
+      <tbody>
+      <tr class="table-<%= @t%2==0?"success": "info"%>">
+        <%@t=@t+1%>
+        <td>
+          <h3>
+            <div >
+              <%= Date.parse(@articles.created_at.to_s) %>
+            </div>
+          </h3>
+        </td>
+        <td>
+          <h3>
+              <%= @articles.title%> 
+          </h3>
+        </td>
+        <td>
+          <h3>
+            <div >
+              <%= @articles.description%> 
+            </div>
+          </h3>
+        </td>
+        
+        <td style="text-align:center">
+          <h3>
+            <%if user_signed_in?%>
+              <%if can? :update, @articles%>
+                <p style="font-size:16px ">
+                  <%= link_to edit_article_path(@articles) do%>
+                      <%= fa_icon "edit",class: "btn btn-outline-danger" %>
+                  <% end %>
+                  <%= link_to '<i class="fa fa-trash-o fa-2x"></i>'.html_safe, article_path(@article), class: "btn btn-outline-danger", method: :delete, data: {confirm: "Are you sure?"} %>
+                </p>
+              <%end%>
+            <%end%>
+          </h3>
+        </td>
+      </tr>
+    </tbody>
+    </table>
+  </div>
+  <div class="mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-9">
+            <div class="headings d-flex justify-content-between align-items-center mb-3">
+                <h1>Comment Section</h1>
+              </div>
+              <%if @articles.comments.length>0%>
+                <% @articles.comments.reverse_each do |comment| %><h3>
+
+                  <div class="card p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="user d-flex flex-row align-items-center"> <span><small class="font-weight-bold text-primary"><%=link_to User.find_by_id(comment.user_id).name,user_path(User.find_by_id(comment.user_id)) %></small> <small class="font-weight-bold"><%= comment.comment %></small></span> </div> <small><%= comment.created_at%></small>
+                      </div>
+                
+                      <div class="action d-flex justify-content-between mt-2 align-items-center">
+                        <div class="reply px-4">
+                          <small> 
+                            <%if can? :delete, comment.article%>
+                              <%= link_to "Remove", [comment.article, comment], method: :delete,data: {confirm: "Are you sure?"} %>
+                          </small>
+                            <span class="dots">
+                            </span>
+                            <%end%>
+                          <div class="icons align-items-center"> <i class="fa fa-star text-warning"></i> <i class="fa fa-check-circle-o check-icon"></i>
+                          </div>
+                      </div>
+                
+                    </div>
+                <% end %>
+            </div>
+              <%end%>
+        </div>
+        
+        <div class="mt-5">
+          <div class="row d-flex justify-content-center">
+            <div class="col-md-9 ">
+              <div class="row">
+                <div class="col-16 shadow p-3 mb-6 bg-light rounded">
+                  <%= form_with model: [ @articles,@articles.comments.build ] do |form|%><h3>
+                    <div class="form-group">
+                      <%= form.text_area :comment,:rows=>2, :cols=>83, placeholder:"Write something here...."%>
+                    </div>
+                    <div class="form-group">
+                      <%= form.submit :class=>"btn btn-outline-info"%>
+                    </div>
+                  <%end%>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+          
+<br>
+  
+  <div style="font-size:15px;">
+  <%= link_to "Back to Home",root_path %>
+  </div>
+
+<script>
+  //  $(document).ready(function(){
+  //   var oTable=$("#data_table").DataTable({})
+  // });
+ 
+// });
+
+</script>
+</body>
+</html>

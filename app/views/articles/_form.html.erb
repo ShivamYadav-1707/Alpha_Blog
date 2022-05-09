@@ -1,0 +1,28 @@
+
+<%= form_with model: article,local: true do |form|%>
+    <%if article.errors.any?%>
+        <div class="alert alert-danger">
+            <% article.errors.full_messages.each do |message|%>
+            <div style="color:red;">
+                <%=message%>
+            </div>
+            <%end%>
+        </div>
+    <%end%>
+    <br>
+  <div style="padding-left:12px;padding-right:12px;">
+    <div class="form-group">
+      <h3><%= form.label :title%> <br>
+      <%= form.text_area :title ,:rows=>2, :cols=>80%></h3>
+  </div>
+  <div class="form-group">
+      <h3><%= form.label :description%> <br>
+      <%= form.text_area :description ,:rows=>15, :cols=>80 %></h3>
+  </div>
+  <div class="form-group">
+      
+      <%= link_to "Back to Home",root_path,class:"btn btn-outline-danger"%>
+      <%= form.submit class:"btn btn-outline-secondary"%>
+  </div>
+  <%end%>
+</div></div>
