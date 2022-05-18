@@ -1,0 +1,6 @@
+$('#modal-window').modal('toggle'); 
+$('#notice').html("<%= escape_javascript render(:partial => 'admin/message', :locals => { notice: flash[:notice] }) %>")
+$('#notice').show()
+$('#table_aj').html("<%= escape_javascript render(:partial => 'users/user', :locals => { :users => @users }) %>")
+$('#table_aj').show();
+$('#table_aj').attr("style", "display: block !important");

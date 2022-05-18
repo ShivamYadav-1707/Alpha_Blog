@@ -1,0 +1,21 @@
+
+<div class="w3-top">
+    <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
+    <%if user_signed_in? %>
+        <div class="w3-bar-item " style="color:grey;"> <strong><%=fa_icon "globe"%>Blog</strong></div>
+        <div class="w3-bar-item w3-button <%= 'w3-theme-l1' if current_page?(articles_path) %>">  <%=link_to "Articles", articles_path%> </div>
+        <div class="w3-bar-item w3-button <%= 'w3-theme-l1' if current_page?(users_path) %>"><%=link_to "Users", users_path%></div>
+        <div class="w3-bar-item w3-button w3-right"><%=link_to "Logout", destroy_user_session_path,method: :delete %></div>
+        <div class="w3-bar-item w3-button w3-right <%= 'w3-theme-l1' if current_page?(current_user) %>"> <%=link_to current_user do%>
+           <%= fa_icon "user"%> <%=current_user.name%>
+           <%end%>
+        </div>
+    <%else%>         
+        <div class="w3-bar-item w3-button <%= 'w3-theme-l1' if current_page?(root_path) %>"><strong><%=link_to root_path do%><%=fa_icon "globe"%> BLOG <%end%></strong></div>
+        <div class="w3-bar-item w3-button w3-hover-white <%= 'w3-theme-l1' if current_page?(new_user_session_path) %>"><%= link_to "Login", new_user_session_path%></div>
+        <div class="w3-bar-item w3-button w3-hover-white <%= 'w3-theme-l1' if current_page?(new_user_registration_path) %>"><%= link_to "SignUp", new_user_registration_path%></div>
+    <%end%>
+    </div>
+</div>
+
+<br><br><br>

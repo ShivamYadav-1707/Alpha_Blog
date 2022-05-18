@@ -1,0 +1,64 @@
+
+<br><div style="padding-left:10px;padding-right:10px">
+    <table class="table table-responsive w-100 d-block d-md-table">
+        <th scope="col" class="table-primary">
+            <h3>User</h3>
+        </th>
+        <th scoper="col" class="table-primary">
+            <h3>Gender</h3>
+        </th>
+        <th  scoper="col" class="table-primary">
+            <h3>Email</h3>
+        </th>
+        <th  scoper="col" class="table-primary">
+            <h3>Operations</h3>
+        </th>
+        <%@t=0%>
+        <% users.each do|user|%>
+
+            <tr class="table-<%= @t%2==0?"active": "light"%>">
+                <%@t=@t+1%>
+            <td>
+                    <%if user.cover_picture.attached? %>
+                        <%= image_tag user.cover_picture, style:"width: 50px;height: 50px; display: block ;text-align:center;transform:translate(5px);"%>
+                    <%end%>
+                        <h3><%=link_to user.name,user_path(user)%> </h3>
+                </td>
+                <td>
+                    <h3><%= user.gender%></h3>
+                </td>
+                <td>
+                <h3> <%= user.email%></h3>
+                </td>
+                <td style="text-align:center">
+                    <p style="font-size:24px ">
+                        <%if user_signed_in?%>
+                            <%if current_user.is_admin?%>
+                                <p  style="font-size:12px">
+                                <%= link_to "/admin_edit/#{user.id}" do%>
+                                    <%= fa_icon "edit",class: "btn-lg btn btn-outline-info" %>
+                                <% end %>
+                                <%= link_to  user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete the User?"},:remote => true do%>
+                                    <%= fa_icon "trash", class: "btn-lg btn btn-outline-danger"%>
+                                <%end%>
+                                </p>
+                            <%elsif can? :update, user%>
+                                <%= link_to edit_user_registration_path(user) do%>
+                                <%= fa_icon "edit",class: "btn-lg btn btn-outline-info" %>
+                                <% end %>
+                                <%= link_to  user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete the User?"},:remote => true do%>
+                                    <%= fa_icon "trash", class: "btn-lg btn btn-outline-danger"%>
+                                <%end%>
+                            <%end%>
+                        <%end%> 
+                    </p>
+                </td>
+            </tr>
+        <%end%>
+    </table>
+</div>
+<div class="w3-center w3-padding-32">
+    <div class="w3-bar">
+        <%= will_paginate users, :container => false, :class=>"w3-button w3-hover-black" %>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<% flash.each do |name, msg| %>
+
+  <%if (name=='alert' || name=='danger') && msg!="Invalid Email or password."%>
+    <div class="alert alert-danger">
+      <%=msg%>
+    </div>
+
+  <%elsif msg=="Signed out successfully."||msg=="Invalid Email or password."||msg=="User created successfully" ||msg=="You will receive an email with instructions on how to reset your password in a few minutes."%>
+  
+  <%else%>
+    <div class="alert alert-success ">
+      <%=msg%>
+    </div>
+  <%end%>
+
+<%end%>

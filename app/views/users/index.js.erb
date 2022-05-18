@@ -1,0 +1,3 @@
+$('#table_aj').html("<%= escape_javascript render(:partial => 'users/user', :locals => { :users => @users }) %>")
+$('#table_aj').show();
+$('#table_aj').attr("style", "display: block !important");

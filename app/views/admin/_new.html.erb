@@ -1,18 +1,3 @@
-
-<div class="danger">
-  <% if @user.errors.any? %>
-  <ul>
-    <% @user.errors.full_messages.each do |name,message| %>
-      <li><%= message %></li>
-    <% end %>
-  </ul>
-<% end %>
-</div>
-<div class="validation-error"></div>
-<div id="helpBlock">
-  <div class="validation-error"></div>
-</div>
-
 <%= form_with(model: @user,url: "/admin_create", method: :post,id: 'form_name', remote: true, local: false) do |f| %>
   <div id="error_explanation" hidden style="margin-bottom: 20px;"></div>
     <div class="modal-header" >
@@ -37,13 +22,13 @@
     </div>
 
     <div class="form-group"  >
-      <%= f.label :Gender,{ class: "col-3 col-form-label"} %> 
-      <div style="transform:translate(50px);">
-        <%= f.radio_button :gender, "male",class: "form-check-input" %>Male &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
-        <%= f.radio_button :gender, "female",class: "form-check-input" %>Female &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <%= f.radio_button :gender, "others",class: "form-check-input" %>Others &nbsp;
+          <%= f.label :Gender,{ class: "fi col-3 col-form-label"} %> 
+          <div style="transform:translate(5%);">
+            <%= f.radio_button :gender, "male" %>&nbsp<%= f.label :Male  %>  &nbsp                                                                                                                                                                        
+            <%= f.radio_button :gender, "female"%>&nbsp<%= f.label :Female%>   &nbsp                                                                                                                                                                   
+            <%= f.radio_button :gender, "others" %>&nbsp<%= f.label :Others%> &nbsp
+          </div>
       </div>
-    </div>
 
     <div class="form-group ">
       <%= f.label :phone ,{ class: "col-3 col-form-label"}%>
@@ -83,7 +68,7 @@
   </div>
   <div class="modal-footer">
     <div style="text-align:center">
-      <%= f.submit "Sign up", :class => "justify-content-center btn btn-outline-success btn-lg bst" %>
+      <%= f.submit "Create a new User", :class => "justify-content-center btn btn-outline-success btn-lg bst" %>
     </div>
   </div>
 <% end %>

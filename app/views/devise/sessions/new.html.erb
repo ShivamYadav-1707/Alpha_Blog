@@ -1,64 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-  <style>
-    #btn_login{
-      width: 290px;
-      background-color: #04AA6D;
-      border-radius: 8px;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      text-decoration: none;
-      font-size: 16px;
-      margin: 4px 2px;
-    }
-  </style>
-</head>
-<body>
-  <div style="padding: 4px;text-align:center;padding-top: 50px;transform:translateX(450px);width:25%">
-  <h2>Log in</h2>
+<div style="padding-top:50px !important;">
+  <div class="row justify-content-center">
+    <div class="col-4 shadow p-3 mb-6 bg-light rounded">
+  
     <% flash.each do |name, msg| %>
-      <%if name=='alert'||name=='danger'%>
-        <div class="alert alert-danger">
+        <%if name=='alert'||name=='danger'%>
+          <div class="alert alert-danger">
+            <%=msg%>
+          </div>
+        <%else%>
+        <div class="alert alert-success ">
           <%=msg%>
         </div>
-      <%else%>
-      <div class="alert alert-success ">
-        <%=msg%>
-      </div>
+        <%end%>
       <%end%>
-    <%end%>
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name),data: { turbo: false }) do |f| %>
-    <div class="field">
-      <%= f.label :email %><br />
-      <%= f.text_field :email, autofocus: true, autocomplete: "email" %>
-    </div>
+    <h2 style="text-align:center;">Log in</h2>
+      
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name),data: { turbo: false }) do |f| %>
+      <div class="form-group ">
+        <%= f.label :email,{ class: "col-3 col-form-label"} %>
+        <div class="col-10" style= "text-content:center !important;" >
+          <%= f.text_field :email, autofocus: true, autocomplete: "email",class: "form-control shadow rounded" %>
+        </div>
+      </div>
 
-    <div class="field">
-      <%= f.label :password %><br />
-      <%= f.password_field :password, autocomplete: "current-password" %>
-    </div>
+      <div class="form-group ">
+        <%= f.label :password,{ class: "col-3 col-form-label"} %>
+        <div class="col-10">
+          <%= f.password_field :password, autocomplete: "current-password",class: "form-control shadow rounded" %>
+        </div>
+      </div>
+      <div style="padding-left:4%;">
+        <% if devise_mapping.rememberable? %>
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me,{ class: "col-3 col-form-label"} %>
+        <% end %>
+      </div>
 
-    <% if devise_mapping.rememberable? %>
-      <div class="field">
-        <%= f.check_box :remember_me %>
-        <%= f.label :remember_me %>
+      <div class="form-group">
+        <div class="col-10">
+        <%= f.submit "Log in" ,:class => "justify-content-center btn btn-outline-success btn-lg bst",:id => "bst"%>
+      </div>
       </div>
     <% end %>
-
-    <div class="actions">
-      <%= f.submit "Log in" ,:class => "success",:id => "btn_login"%>
+    <br>
+    <div style="text-align:center !important;">
+      <%= render "devise/shared/links" %>
     </div>
-  <% end %>
-
-  <%= render "devise/shared/links" %>
+    </div>
+  </div>
 </div>
-</body>
-</htm
